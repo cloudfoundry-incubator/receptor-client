@@ -17,11 +17,15 @@
 package org.cloudfoundry.receptor.commands;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author Mark Fisher
  */
 public class CellResponse {
+
+	private static final ObjectMapper objectMapper = new ObjectMapper();
 
 	@JsonProperty("cell_id")
 	private String cellId;
@@ -56,7 +60,12 @@ public class CellResponse {
 
 	@Override
 	public String toString() {
-		return "CellResponse [cellId=" + cellId + ", zone=" + zone + ", capacity=" + capacity + "]";
+		try {
+			return objectMapper.writeValueAsString(this);
+		}
+		catch (JsonProcessingException e) {
+			return super.toString();
+		}
 	}
 
 	public static class Capacity {
@@ -91,11 +100,6 @@ public class CellResponse {
 
 		public void setContainers(int containers) {
 			this.containers = containers;
-		}
-
-		@Override
-		public String toString() {
-			return "Capacity [memoryMb=" + memoryMb + ", diskMb=" + diskMb + ", containers=" + containers + "]";
 		}
 	}
 }

@@ -20,12 +20,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.cloudfoundry.receptor.support.Route;
+
 import org.springframework.util.ObjectUtils;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author Mark Fisher
  */
 public class DesiredLRPUpdateRequest {
+
+	private static final ObjectMapper objectMapper = new ObjectMapper();
 
 	private int instances = 1;
 
@@ -59,5 +65,15 @@ public class DesiredLRPUpdateRequest {
 
 	public String getAnnotation() {
 		return annotation;
+	}
+
+	@Override
+	public String toString() {
+		try {
+			return objectMapper.writeValueAsString(this);
+		}
+		catch (JsonProcessingException e) {
+			return super.toString();
+		}
 	}
 }

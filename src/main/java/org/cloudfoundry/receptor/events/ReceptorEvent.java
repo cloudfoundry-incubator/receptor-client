@@ -18,10 +18,15 @@ package org.cloudfoundry.receptor.events;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * @author Mark Fisher
  */
 public abstract class ReceptorEvent<D> {
+
+	private static final ObjectMapper objectMapper = new ObjectMapper();
 
 	private final int id;
 
@@ -39,7 +44,7 @@ public abstract class ReceptorEvent<D> {
 	}
 
 	public String getType() {
-		return this.getClass().getSimpleName();
+		return type;
 	}
 
 	public Map<String, D> getData() {
@@ -52,6 +57,11 @@ public abstract class ReceptorEvent<D> {
 
 	@Override
 	public String toString() {
-		return "Event [id=" + id + ", type=" + type + ", data=" + data + "]";
+		try {
+			return objectMapper.writeValueAsString(this);
+		}
+		catch (JsonProcessingException e) {
+			return super.toString();
+		}
 	}
 }

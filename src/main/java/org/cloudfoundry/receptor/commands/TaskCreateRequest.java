@@ -16,7 +16,6 @@
 
 package org.cloudfoundry.receptor.commands;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
@@ -26,11 +25,15 @@ import org.cloudfoundry.receptor.support.EnvironmentVariable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author Mark Fisher
  */
 public class TaskCreateRequest {
+
+	private static final ObjectMapper objectMapper = new ObjectMapper();
 
 	@JsonProperty("task_guid")
 	private String taskGuid;
@@ -194,14 +197,11 @@ public class TaskCreateRequest {
 
 	@Override
 	public String toString() {
-		return "TaskCreateRequest [taskGuid=" + taskGuid + ", domain=" + domain
-				+ ", rootfs=" + rootfs + ", env=" + Arrays.toString(env)
-				+ ", cpuWeight=" + cpuWeight + ", diskMb=" + diskMb
-				+ ", memoryMb=" + memoryMb + ", privileged=" + privileged
-				+ ", runAction=" + runAction + ", resultFile=" + resultFile
-				+ ", completionCallbackUrl=" + completionCallbackUrl
-				+ ", logGuid=" + logGuid + ", logSource=" + logSource
-				+ ", annotation=" + annotation + ", egressRules="
-				+ Arrays.toString(egressRules) + "]";
+		try {
+			return objectMapper.writeValueAsString(this);
+		}
+		catch (JsonProcessingException e) {
+			return super.toString();
+		}
 	}
 }
