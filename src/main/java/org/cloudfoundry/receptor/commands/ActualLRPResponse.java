@@ -16,12 +16,12 @@
 
 package org.cloudfoundry.receptor.commands;
 
-import java.util.Arrays;
-
 import org.cloudfoundry.receptor.support.ModificationTag;
 import org.cloudfoundry.receptor.support.Port;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author Matt Stine
@@ -32,6 +32,8 @@ public class ActualLRPResponse {
 	public static enum State {
 		UNCLAIMED, CLAIMED, RUNNING, CRASHED
 	};
+
+	private static final ObjectMapper objectMapper = new ObjectMapper();
 
 	@JsonProperty("process_guid")
 	private String processGuid;
@@ -182,13 +184,11 @@ public class ActualLRPResponse {
 
 	@Override
 	public String toString() {
-		return "ActualLRPResponse [processGuid=" + processGuid
-				+ ", instanceGuid=" + instanceGuid + ", cellId=" + cellId
-				+ ", domain=" + domain + ", index=" + index + ", state="
-				+ state + ", address=" + address + ", ports="
-				+ Arrays.toString(ports) + ", placementError=" + placementError
-				+ ", crashCount=" + crashCount + ", since=" + since
-				+ ", evacuating=" + evacuating + ", modificationTag="
-				+ modificationTag + "]";
+		try {
+			return objectMapper.writeValueAsString(this);
+		}
+		catch (JsonProcessingException e) {
+			return super.toString();
+		}
 	}
 }

@@ -33,12 +33,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * @author Mark Fisher
  */
 public class DesiredLRPCreateRequest {
+
+	private static final ObjectMapper objectMapper = new ObjectMapper();
 
 	@JsonProperty("process_guid")
 	private String processGuid;
@@ -283,17 +287,11 @@ public class DesiredLRPCreateRequest {
 
 	@Override
 	public String toString() {
-		return "DesiredLRPCreateRequest [processGuid=" + processGuid
-				+ ", domain=" + domain + ", instances=" + instances
-				+ ", rootfs=" + rootfs + ", env=" + Arrays.toString(env)
-				+ ", cpuWeight=" + cpuWeight + ", diskMb=" + diskMb
-				+ ", memoryMb=" + memoryMb + ", privileged=" + privileged
-				+ ", setup=" + setup + ", action=" + action + ", monitor="
-				+ monitor + ", startTimeout=" + startTimeout + ", ports="
-				+ Arrays.toString(ports) + ", routes=" + routes + ", logGuid="
-				+ logGuid + ", logSource=" + logSource + ", metricsGuid="
-				+ metricsGuid + ", annotation=" + annotation + ", egressRules="
-				+ Arrays.toString(egressRules) + ", modificationTag="
-				+ modificationTag + "]";
+		try {
+			return objectMapper.writeValueAsString(this);
+		}
+		catch (JsonProcessingException e) {
+			return super.toString();
+		}
 	}
 }
