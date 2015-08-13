@@ -67,13 +67,16 @@ publishing {
 
     publications {
         maven(MavenPublication) {
+            artifactId 'receptor-client'
             from components.java
 
             artifact sourcesJar {
+                artifactId 'receptor-client'
                 classifier "sources"
             }
 
             artifact javadocJar {
+                artifactId 'receptor-client'
                 classifier "javadoc"
             }
         }
