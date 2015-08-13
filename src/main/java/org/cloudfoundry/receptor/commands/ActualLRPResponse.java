@@ -58,6 +58,9 @@ public class ActualLRPResponse {
 	@JsonProperty("crash_count")
 	private int crashCount;
 
+	@JsonProperty("crash_reason")
+	private String crashReason;
+
 	private long since;
 
 	private boolean evacuating;
@@ -143,6 +146,14 @@ public class ActualLRPResponse {
 
 	public void setCrashCount(int crashCount) {
 		this.crashCount = crashCount;
+	}
+
+	public String getCrashReason() {
+		return crashReason;
+	}
+
+	public void setCrashReason(String crashReason) {
+		this.crashReason = crashReason;
 	}
 
 	public long getSince() {
