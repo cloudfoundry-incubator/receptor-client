@@ -138,6 +138,6 @@ public class ReceptorClientIntegrationTests {
 	public void getCells() {
 		List<CellResponse> cells = client.getCells();
 		assertEquals(1, cells.size());
-		assertEquals("lattice-cell-01", cells.get(0).getCellId());
+		assertEquals("cell-01", cells.get(0).getCellId());
 	}
 }
