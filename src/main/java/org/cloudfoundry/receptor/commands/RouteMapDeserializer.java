@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * @author Matt Stine
  */
-public class RouteMapSerializer extends JsonDeserializer<Map<String, Route[]>> {
+public class RouteMapDeserializer extends JsonDeserializer<Map<String, Route[]>> {
     @Override
     public Map<String, Route[]> deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
         ObjectCodec codec = parser.getCodec();

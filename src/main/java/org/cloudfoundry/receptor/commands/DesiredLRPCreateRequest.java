@@ -76,7 +76,7 @@ public class DesiredLRPCreateRequest {
 
 	private int[] ports = new int[] { 8080 };
 
-	@JsonDeserialize(using = RouteMapSerializer.class)
+	@JsonDeserialize(using = RouteMapDeserializer.class)
 	private Map<String, Route[]> routes = new HashMap<String, Route[]>();
 
 	@JsonProperty("log_guid")

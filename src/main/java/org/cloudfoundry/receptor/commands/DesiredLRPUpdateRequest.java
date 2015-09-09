@@ -33,7 +33,7 @@ public class DesiredLRPUpdateRequest {
 
 	private int instances = 1;
 
-	@JsonDeserialize(using = RouteMapSerializer.class)
+	@JsonDeserialize(using = RouteMapDeserializer.class)
 	private Map<String, Route[]> routes = new HashMap<String, Route[]>();
 
 	private String annotation;
@@ -59,7 +59,7 @@ public class DesiredLRPUpdateRequest {
 	}
 
 	public void addTcpRoute(int externalPort, int containerPort) {
-		this.routes.put("cf-router", ObjectUtils.addObjectToArray(this.routes.get("cf-router"), new TcpRoute(externalPort, containerPort)));
+		this.routes.put("tcp-router", ObjectUtils.addObjectToArray(this.routes.get("tcp-router"), new TcpRoute(externalPort, containerPort)));
 	}
 
 	public void setAnnotation(String annotation) {
